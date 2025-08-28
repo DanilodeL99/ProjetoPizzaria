@@ -80,5 +80,17 @@ namespace SistemaPizzaria
             txtValorOpcionais.Text = Convert.ToString(valorOpcao);
             txtValorPagar.Text = Convert.ToString(valorTotal);
         }
+
+        private void grpOpcionais_Enter(object sender, EventArgs e)
+        {
+            cmbTamanhoPizza.SelectedIndex = -1;
+            txtValorPizza.Clear();
+            txtValorPagar.Clear();
+            txtValorOpcionais.Clear();
+            chkBorda.Checked = false;
+            chkCatupiry.Checked = false;
+            chkCebola.Checked = false;
+            chkTempero.Checked = false;
+        }
     }
 }
