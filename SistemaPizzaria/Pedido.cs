@@ -27,7 +27,15 @@ namespace SistemaPizzaria
 
         private void btnNovo_Click(object sender, EventArgs e)
         {
+            chkBorda.Checked = false;
+            chkCatupiry.Checked = false;
+            chkCebola.Checked = false;
+            chkTempero.Checked = false;
 
+            txtValorOpcionais.Clear();
+            txtValorPizza.Clear();
+            txtValorPagar.Clear();
+            cmbTamanhoPizza.SelectedIndex = 0;
         }
 
         private void Pedido_Load(object sender, EventArgs e)
@@ -138,6 +146,76 @@ namespace SistemaPizzaria
                 {
                     MessageBox.Show(erro.Message);
                 }
+            }
+        }
+
+        private void dgvPedido_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            CarregarPedidos();
+        }
+
+        //METODO QUE VAI CARREGAR AS INFORMAÇÕES NO DATAGRID
+        public void CarregarPedidos()
+        {
+            try
+            {
+                txtCodigo.Text = dgvPedido.SelectedRows[0].Cells[0].Value.ToString();
+                cmbTamanhoPizza.Text = dgvPedido.SelectedRows[0].Cells[1].Value.ToString();
+                txtValorPizza.Text = dgvPedido.SelectedRows[0].Cells[2].Value.ToString();
+                txtValorOpcionais.Text = dgvPedido.SelectedRows[0].Cells[3].Value.ToString();
+                txtValorPagar.Text = dgvPedido.SelectedRows[0].Cells[4].Value.ToString();
+
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Erros ao clicar" + error);
+            }
+
+        }
+
+        private void txtPesquisar_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPesquisar.Text != "")
+            {
+                try
+                {
+                    con.ConnectarBD();
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.CommandText = "select * from tbPedido";
+
+                   
+                    cmd.Connection = con.ConnectarBD();
+                    MySqlDataAdapter da = new MySqlDataAdapter();
+                    DataTable dt = new DataTable();
+                    da.SelectCommand = cmd;
+                    da.Fill(dt);
+                    dgvPedido.DataSource = dt;
+                    con.ConnectarBD();
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message);
+                }
+            }
+            else
+            {
+                //DEIXA O DATAGRID LIMPAR
+                dgvPedido.DataSource = null;
+            }
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            DialogResult sair = MessageBox.Show("Deseja sair ?", "Sair", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (sair == DialogResult.No)
+            {
+                Pedido ped = new Pedido();
+                ped.Show();
+                this.Hide();
+            }
+            else
+            {
+                Application.Exit();
             }
         }
     }

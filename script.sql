@@ -2,7 +2,7 @@
 CREATE DATABASE BDPizzaria1;
 
 -- USANDO BANCO DE DADOS
-USE BDPizzaria;
+USE BDPizzaria1;
 -- CRIANDO AS TABELAS DO BANCO DE DADOS
 CREATE TABLE tbPedido(
 	codPedido int primary key auto_increment,
